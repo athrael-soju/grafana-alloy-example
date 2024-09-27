@@ -8,13 +8,16 @@ services:
       - ./config/grafana:/etc/grafana-config
       - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
     ports:
-      - "3000:3000"
+      - '4000:3000' # Changed to map host port 4000 to container port 3000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/healthz"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/healthz']
       interval: 1s
       start_interval: 0s
       timeout: 10s
       retries: 5
+    environment:
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+      - GF_AUTH_COOKIE_SAMESITE=none
 
   install-dashboard-dependencies:
     build: images/jb
@@ -54,5 +57,3 @@ services:
       - ./operations/alloy-mixin:/etc/alloy-mixin
     working_dir: /etc/alloy-mixin
     command: grr watch dashboards/ grizzly/dashboards.jsonnet
-
-
