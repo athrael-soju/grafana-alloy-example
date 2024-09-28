@@ -35,7 +35,6 @@ prometheus.scrape "alloy" {
 }
 
 // prometheus.exporter.node_exporter "node_exporter" {}
-prometheus.exporter.node "node_exporter" {}
 prometheus.scrape "node_exporter" {
   targets = [
     {"__address__" = "node_exporter:9100", "job" = "node_exporter"},
