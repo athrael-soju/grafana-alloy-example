@@ -1,0 +1,92 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: Mimir
+  - name: Loki
+  - name: Tempo
+  - name: Pyroscope
+
+datasources:
+  - name: Mimir
+    type: prometheus
+    access: proxy
+    orgId: 1
+    url: http://mimir:9009/prometheus
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: true
+    jsonData:
+      # The recommended scrape interval is 60s.
+      timeInterval: '60s'
+
+  - name: Loki
+    type: loki
+    access: proxy
+    orgId: 1
+    url: http://loki:3100
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: true
+    jsonData:
+      derivedFields:
+        - datasourceUid: tempo
+          matcherRegex: tid=(\w+)
+          name: TraceID
+          url: $${__value.raw}
+
+  - name: Pyroscope
+    type: grafana-pyroscope-datasource
+    access: proxy
+    orgId: 1
+    url: http://pyroscope:4040/
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: true
+
+  - name: Tempo
+    type: tempo
+    access: proxy
+    orgId: 1
+    url: http://tempo:3200
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: true
+    uid: tempo
+    jsonData:
+      tracesToLogsV2:
+        datasourceUid: 'P8E80F9AEF21F6940' # Loki
+        spanStartTimeShift: '-1h'
+        spanEndTimeShift: '1h'
+        tags: ['job', 'instance', 'pod', 'namespace']
+        filterByTraceID: false
+        filterBySpanID: false
+        customQuery: true
+        query: 'method="$${__span.tags.method}"'
+      tracesToMetrics:
+        datasourceUid: 'PAE45454D0EDB9216' # Mimir
+        spanStartTimeShift: '1h'
+        spanEndTimeShift: '-1h'
+        tags: [{ key: 'service.name', value: 'service' }, { key: 'job' }]
+      tracesToProfiles:
+        datasourceUid: 'P02E4190217B50628' # Pyroscope
+        tags: ['job', 'instance', 'pod', 'namespace']
+        profileTypeId: 'process_cpu:cpu:nanoseconds:cpu:nanoseconds'
+        customQuery: true
+        query: 'method="$${__span.tags.method}"'
+      serviceMap:
+        datasourceUid: 'PAE45454D0EDB9216' # Mimir
+      nodeGraph:
+        enabled: true
+      search:
+        hide: false
+      traceQuery:
+        timeShiftEnabled: true
+        spanStartTimeShift: '1h'
+        spanEndTimeShift: '-1h'
+      spanBar:
+        type: 'Tag'
+        tag: 'http.path'

@@ -6,7 +6,9 @@ services:
       - --config=/etc/grafana-config/grafana.ini
     volumes:
       - ./config/grafana:/etc/grafana-config
-      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./config/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./config/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./config/grafana/dashboards:/var/lib/grafana/dashboards
     ports:
       - '4000:3000' # Changed to map host port 4000 to container port 3000
     healthcheck:

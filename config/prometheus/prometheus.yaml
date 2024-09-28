@@ -6,10 +6,11 @@ scrape_configs:
     static_configs:
       - targets: ['host.docker.internal:9464'] # Target your Node.js app metrics endpoint
 
-  # Scrape config for Windows WMI Exporter
-  - job_name: 'node_exporter'
-    static_configs:
-      - targets: ['node_exporter:9100'] # Node Exporter metrics
+# Commented out, as Alloy config contains this job
+  # # Scrape config for Windows WMI Exporter
+  # - job_name: 'node_exporter'
+  #   static_configs:
+  #     - targets: ['node_exporter:9100'] # Node Exporter metrics
 
 remote_write:
   - url: 'http://mimir:9009/api/v1/push' # Send the scraped metrics to Mimir's remote write API
