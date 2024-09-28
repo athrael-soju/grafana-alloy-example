@@ -1,14 +1,16 @@
-name: alloy-example
+name: helios
 
 include:
-  - ./grafana.yaml
-  - ./databases.yaml
+  - ./visualization.yaml
+  - ./monitoring.yaml
+  - ./observability.yaml
 
 services:
   alloy:
+    container_name: alloy  
     image: grafana/alloy:latest
     pull_policy: always
-    profiles: ["alloy"]
+    profiles: ['alloy']
     restart: on-failure
     volumes:
       - ./config/alloy:/etc/alloy
@@ -29,4 +31,4 @@ services:
       - --server.http.listen-addr=0.0.0.0:12345
       - --stability.level=experimental # Enable all functionality
     ports:
-      - "12345:12345"
+      - '12345:12345'

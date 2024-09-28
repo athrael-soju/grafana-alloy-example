@@ -1,5 +1,6 @@
 services:
   prometheus:
+    container_name: prometheus
     image: prom/prometheus:latest
     restart: on-failure
     command:
@@ -10,6 +11,7 @@ services:
       - '9090:9090'
 
   mimir:
+    container_name: mimir
     image: grafana/mimir:latest
     restart: on-failure
     command:
@@ -37,31 +39,3 @@ services:
       - '^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
     depends_on:
       - prometheus
-
-  tempo:
-    image: grafana/tempo:latest
-    restart: on-failure
-    command:
-      - -config.file=/etc/tempo-config/tempo.yaml
-    volumes:
-      - ./config/tempo:/etc/tempo-config
-    ports:
-      - '3200:3200'
-      - '4317:4317'
-      - '4318:4318'
-    depends_on:
-      - loki
-      - mimir
-      - pyroscope
-
-  loki:
-    image: grafana/loki:latest
-    restart: on-failure
-    ports:
-      - '3100:3100'
-
-  pyroscope:
-    image: grafana/pyroscope:latest
-    restart: on-failure
-    ports:
-      - '4040:4040'

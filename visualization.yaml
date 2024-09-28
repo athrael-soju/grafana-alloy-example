@@ -1,5 +1,6 @@
 services:
   grafana:
+    container_name: grafana
     image: grafana/grafana:latest
     restart: on-failure
     command:
@@ -22,8 +23,9 @@ services:
       - GF_AUTH_COOKIE_SAMESITE=none
 
   install-dashboard-dependencies:
+    container_name: install-dashboard-dependencies
     build: images/jb
-    restart: on-failure
+    restart: 'no'
     depends_on:
       grafana:
         condition: service_healthy
@@ -34,8 +36,9 @@ services:
 
   # Provision alloy-mixin after Grafana is healthy and running.
   provision-dashboards:
+    container_name: provision-dashboards
     build: images/grizzly
-    restart: on-failure
+    restart: 'no'
     depends_on:
       install-dashboard-dependencies:
         condition: service_completed_successfully
@@ -48,6 +51,7 @@ services:
 
   # Watch dashboards for changes and apply them to Grafana.
   watch-dashboards:
+    container_name: watch-dashboards
     build: images/grizzly
     restart: on-failure
     depends_on:
