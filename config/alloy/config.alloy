@@ -34,6 +34,15 @@ prometheus.scrape "alloy" {
 	forward_to = [prometheus.remote_write.mimir.receiver]
 }
 
+// prometheus.exporter.node_exporter "node_exporter" {}
+prometheus.exporter.node "node_exporter" {}
+prometheus.scrape "node_exporter" {
+  targets = [
+    {"__address__" = "node_exporter:9100", "job" = "node_exporter"},
+  ]
+  forward_to = [prometheus.remote_write.mimir.receiver]
+}
+
 // Collect profiles from the local running Alloy instance and forward to Pyroscope.
 pyroscope.scrape "default" {
 	targets = [
