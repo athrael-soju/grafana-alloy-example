@@ -1,6 +1,6 @@
 services:
   grafana:
-    image: grafana/grafana:10.1.9
+    image: grafana/grafana:latest
     restart: on-failure
     command:
       - --config=/etc/grafana-config/grafana.ini

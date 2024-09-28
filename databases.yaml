@@ -1,6 +1,6 @@
 services:
   mimir:
-    image: grafana/mimir:2.12.0
+    image: grafana/mimir:latest
     restart: on-failure
     command:
       - -config.file=/etc/mimir-config/mimir.yaml
@@ -35,13 +35,13 @@ services:
       - '^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
 
   loki:
-    image: grafana/loki:3.0.0
+    image: grafana/loki:latest
     restart: on-failure
     ports:
       - '3100:3100'
 
   tempo:
-    image: grafana/tempo:2.4.1
+    image: grafana/tempo:latest
     restart: on-failure
     command:
       - -config.file=/etc/tempo-config/tempo.yaml
@@ -53,7 +53,7 @@ services:
       - '4318:4318'
 
   pyroscope:
-    image: grafana/pyroscope:1.5.0
+    image: grafana/pyroscope:latest
     restart: on-failure
     ports:
       - '4040:4040'
