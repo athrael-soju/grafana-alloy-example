@@ -1,14 +1,4 @@
 services:
-  mimir:
-    image: grafana/mimir:latest
-    restart: on-failure
-    command:
-      - -config.file=/etc/mimir-config/mimir.yaml
-    volumes:
-      - ./config/mimir:/etc/mimir-config
-    ports:
-      - '9009:9009'
-
   prometheus:
     image: prom/prometheus:latest
     restart: on-failure
@@ -18,6 +8,18 @@ services:
       - ./config/prometheus:/etc/prometheus-config
     ports:
       - '9090:9090'
+
+  mimir:
+    image: grafana/mimir:latest
+    restart: on-failure
+    command:
+      - -config.file=/etc/mimir-config/mimir.yaml
+    volumes:
+      - ./config/mimir:/etc/mimir-config
+    ports:
+      - '9009:9009'
+    depends_on:
+      - prometheus
 
   node_exporter:
     container_name: node_exporter
@@ -33,12 +35,8 @@ services:
       - '--path.sysfs=/host/sys'
       - --collector.filesystem.ignored-mount-points
       - '^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
-
-  loki:
-    image: grafana/loki:latest
-    restart: on-failure
-    ports:
-      - '3100:3100'
+    depends_on:
+      - prometheus
 
   tempo:
     image: grafana/tempo:latest
@@ -51,6 +49,16 @@ services:
       - '3200:3200'
       - '4317:4317'
       - '4318:4318'
+    depends_on:
+      - loki
+      - mimir
+      - pyroscope
+
+  loki:
+    image: grafana/loki:latest
+    restart: on-failure
+    ports:
+      - '3100:3100'
 
   pyroscope:
     image: grafana/pyroscope:latest
