@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s # How frequently to scrape targets by default
+
+scrape_configs:
+  - job_name: 'nodejs-app'
+    static_configs:
+      - targets: ['host.docker.internal:9464'] # Target your Node.js app metrics endpoint
+
+  # Scrape config for Windows WMI Exporter
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['node_exporter:9100'] # Node Exporter metrics
+
+remote_write:
+  - url: 'http://mimir:9009/api/v1/push' # Send the scraped metrics to Mimir's remote write API
+
