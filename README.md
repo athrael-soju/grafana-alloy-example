@@ -1,4 +1,4 @@
-# Docker Compose example
+# Grafana Alloy example
 
 This example demonstrates how to run Grafana Alloy with Docker Compose. The setup includes Grafana, Prometheus, Node Exporter, Grafana Mimir, Grafana Loki, Grafana Tempo, and Grafana Pyroscope. The environment is pre-configured with datasources and dashboards for monitoring Grafana Alloy.
 
