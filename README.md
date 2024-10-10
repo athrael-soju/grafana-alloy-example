@@ -2,6 +2,8 @@
 
 This example demonstrates how to run Grafana Alloy with Docker Compose. The setup includes Grafana, Prometheus, Node Exporter, Grafana Mimir, Grafana Loki, Grafana Tempo, and Grafana Pyroscope. The environment is pre-configured with datasources and dashboards for monitoring Grafana Alloy.
 
+The official example unfortunately isn't working right now. So, I decided to fix and improve it. You can find the original project [here](https://github.com/grafana/alloy/tree/main/example).
+
 ## Prerequisites
 
 Ensure that Docker and Docker Compose are installed and running on your system.
