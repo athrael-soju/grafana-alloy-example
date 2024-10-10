@@ -1,4 +1,4 @@
-name: helios
+name: grafana-alloy
 
 include:
   - ./visualization.yaml
@@ -7,7 +7,7 @@ include:
 
 services:
   alloy:
-    container_name: alloy  
+    container_name: alloy
     image: grafana/alloy:latest
     pull_policy: always
     profiles: ['alloy']
@@ -29,6 +29,6 @@ services:
       - /etc/alloy/config.alloy
       - --storage.path=/var/lib/alloy/data
       - --server.http.listen-addr=0.0.0.0:12345
-      - --stability.level=experimental # Enable all functionality
+      - --stability.level=experimental
     ports:
       - '12345:12345'
