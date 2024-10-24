@@ -1,6 +1,8 @@
-# Docker Compose example
+# Grafana Alloy example
 
 This example demonstrates how to run Grafana Alloy with Docker Compose. The setup includes Grafana, Prometheus, Node Exporter, Grafana Mimir, Grafana Loki, Grafana Tempo, and Grafana Pyroscope. The environment is pre-configured with datasources and dashboards for monitoring Grafana Alloy.
+
+The official example unfortunately isn't working right now. So, I decided to fix and improve it. You can find the original project [here](https://github.com/grafana/alloy/tree/main/example).
 
 ## Prerequisites
 
@@ -39,12 +41,6 @@ docker compose --profile=alloy up -d
 docker compose --profile=alloy down
 ```
 
-# Note
-
-- When Alloy starts, you'll notice that install-dashboard-dependencies and provision-dashboards are stopped. This is expected.
-- Also, If you don't have an application exporting prometheus, metrics you won't see any data in the relevant dashboards.
-  ![alt text](image.png)
-
 # Usage
 
 - Proceed to localhost:12345 to view the dashboard:
@@ -64,6 +60,12 @@ docker compose --profile=alloy down
   - Select the Tempo datasource and query traces.
   - Select the Pyroscope datasource and query profiles.
   - Select the Mimir (Or Prometheus) datasource and query metrics.
+
+# Note
+
+- When Alloy starts, you'll notice that install-dashboard-dependencies and provision-dashboards are stopped. This is expected.
+- Also, If you don't have an application exporting prometheus, metrics you won't see any data in the relevant dashboards.
+  ![alt text](image.png)
 
 # That's it!
 
