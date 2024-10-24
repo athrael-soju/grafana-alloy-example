@@ -69,4 +69,4 @@ docker compose --profile=alloy down
 
 You now have a fully functional Grafana Alloy Observability Stack running on your local machine. Feel free to explore the various services and dashboards to monitor your applications and infrastructure.
 
-If you have any questions or feedback, please let us know :)
+If you have any questions or feedback, please let me know :)
